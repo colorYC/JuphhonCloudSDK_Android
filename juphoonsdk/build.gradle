@@ -2,8 +2,6 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
-version = "1.20.0"
-
 android {
     compileSdkVersion 26
 
@@ -23,11 +21,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    sourceSets {
-        main {
-            jniLibs.srcDirs = ['libs/cloud']
-        }
-    }
     lintOptions {
         abortOnError false
     }
@@ -45,41 +38,8 @@ dependencies {
     implementation files('libs/cloud/zmf.jar')
 }
 
-def siteUrl = 'https://github.com/colorYC/JuphhonCloudSDK_Android'                        // #CONFIG# // project homepage
-def gitUrl = 'https://github.com/colorYC/JuphhonCloudSDK_Android.git'                     // #CONFIG# // project git
-group = "com.juphoon"                                                          // #CONFIG# // Maven Group ID for the artifact (pageckage name is ok)
-
-install {
-    repositories.mavenInstaller {
-        // This generates POM.xml with proper parameters
-        pom {
-            project {
-                packaging 'aar'
-                name 'JuphoonCloudSDK'                                   // #CONFIG# // project title
-                url siteUrl
-                // Set your license
-                licenses {
-                    license {
-                        name 'The Apache Software License, Version 2.0'
-                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                    }
-                }
-                developers {
-                    developer {
-                        id 'juphoon'                                           // #CONFIG# // your user id (you can write your nickname)
-                        name 'color.yu'                                       // #CONFIG# // your user name
-                        email '1046165834@qq.com'                               // #CONFIG# // your email
-                    }
-                }
-                scm {
-                    connection gitUrl
-                    developerConnection gitUrl
-                    url siteUrl
-                }
-            }
-        }
-    }
-}
+group = 'com.juphoon.juphoonsdk'
+version = '1.20.0'
 
 task sourcesJar(type: Jar) {
     from android.sourceSets.main.java.srcDirs
@@ -97,7 +57,7 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
 }
 
 artifacts {
-    // archives javadocJar
+    archives javadocJar
     archives sourcesJar
 }
 
@@ -110,14 +70,21 @@ if (project.rootProject.file('local.properties') != null){
 bintray {
     user = isHasFile ? properties.getProperty("bintray.user") : System.getenv("bintray.user")
     key = isHasFile ? properties.getProperty("bintray.apikey") : System.getenv("bintray.apikey")
-    configurations = ['archives']
+
     pkg {
         repo = "JuphoonCloudSDK"
-        name = "juphoonsdk"
-        // #CONFIG# project name in jcenter
-        websiteUrl = siteUrl
-        vcsUrl = gitUrl
+        name = "com.juphoon.juphoonsdk"
+
+        version {
+            name = '1.20.0-release'
+            desc = "sdk for communication"
+            vcsTag = '1.20.0'
+        }
         licenses = ["Apache-2.0"]
-        publish = true
+        vcsUrl = 'https://github.com/colorYC/JuphhonCloudSDK_Android.git';
+        websiteUrl = 'https://github.com/colorYC/JuphhonCloudSDK_Android';
     }
+
+    configurations = ['archives']
+    publish = true
 }
