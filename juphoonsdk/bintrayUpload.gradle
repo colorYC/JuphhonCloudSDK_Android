@@ -113,7 +113,7 @@ bintray {
     key = bintrayApikey
     configurations = ['archives']
     pkg {
-        repo = "JuphoonCloudSDK"
+        repo = "maven"
         name = projectName
         websiteUrl = projectSiteUrl
         vcsUrl = projectGitUrl
